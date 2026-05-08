@@ -1,0 +1,942 @@
+type BackUnbacked {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  backer: String!
+  amount: BigInt!
+  fee: BigInt!
+}
+
+type Borrow {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+  onBehalfOf: String!
+  amount: BigInt!
+  interestRateMode: BigInt!
+  borrowRate: BigInt!
+  referralCode: BigInt!
+}
+
+type DeficitCovered {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  caller: String!
+  amountCovered: BigInt!
+}
+
+type DeficitCreated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  debtAsset: String!
+  amountCreated: BigInt!
+}
+
+type FlashLoan {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  target: String!
+  initiator: String!
+  asset: String!
+  amount: BigInt!
+  interestRateMode: BigInt!
+  premium: BigInt!
+  referralCode: BigInt!
+}
+
+type LiquidationCall {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  collateralAsset: String!
+  debtAsset: String!
+  user: String!
+  debtToCover: BigInt!
+  liquidatedCollateralAmount: BigInt!
+  liquidator: String!
+  receiveAToken: Boolean!
+}
+
+type MintUnbacked {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+  onBehalfOf: String!
+  amount: BigInt!
+  referralCode: BigInt!
+}
+
+type MintedToTreasury {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  amountMinted: BigInt!
+}
+
+type Repay {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+  repayer: String!
+  amount: BigInt!
+  useATokens: Boolean!
+}
+
+type ReserveDataUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  liquidityRate: BigInt!
+  stableBorrowRate: BigInt!
+  variableBorrowRate: BigInt!
+  liquidityIndex: BigInt!
+  variableBorrowIndex: BigInt!
+}
+
+type InterestRate {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  supplyAPY: Float!
+  supplyAPR: Float!
+  stableBorrowAPY: Float!
+  stableBorrowAPR: Float!
+  variableBorrowAPY: Float!
+  variableBorrowAPR: Float!
+  liquidityRate: BigInt!
+  stableBorrowRate: BigInt!
+  variableBorrowRate: BigInt!
+}
+
+type ReserveUsedAsCollateralDisabled {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+}
+
+type ReserveUsedAsCollateralEnabled {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+}
+
+type Supply {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+  onBehalfOf: String!
+  amount: BigInt!
+  referralCode: BigInt!
+}
+
+type Upgraded {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  implementation: String!
+}
+
+type UserEModeSet {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  categoryId: BigInt!
+}
+
+type Withdraw {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reserve: String!
+  user: String!
+  to: String!
+  amount: BigInt!
+}
+
+# AaveOracle Events
+type AssetSourceUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  source: String!
+}
+
+type BaseCurrencySet {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  baseCurrency: String!
+  baseCurrencyUnit: BigInt!
+}
+
+type FallbackOracleUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  fallbackOracle: String!
+}
+
+# GHOFlashMinter Events
+type FlashMint {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  receiver: String!
+  amount: BigInt!
+  fee: BigInt!
+}
+
+# PoolConfigurator Events
+type ATokenUpgraded {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  proxy: String!
+  implementation: String!
+}
+
+type BorrowCapChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldBorrowCap: BigInt!
+  newBorrowCap: BigInt!
+}
+
+type BorrowableInIsolationChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  borrowable: Boolean!
+}
+
+type BridgeProtocolFeeUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldBridgeProtocolFee: BigInt!
+  newBridgeProtocolFee: BigInt!
+}
+
+type CollateralConfigurationChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  ltv: BigInt!
+  liquidationThreshold: BigInt!
+  liquidationBonus: BigInt!
+}
+
+type DebtCeilingChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldDebtCeiling: BigInt!
+  newDebtCeiling: BigInt!
+}
+
+type ReserveActive {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  active: Boolean!
+}
+
+type ReserveBorrowing {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  enabled: Boolean!
+}
+
+type ReserveDropped {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+}
+
+type ReserveFactorChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldReserveFactor: BigInt!
+  newReserveFactor: BigInt!
+}
+
+type ReserveFrozen {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  frozen: Boolean!
+}
+
+type ReserveInitialized {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  aToken: String!
+  stableDebtToken: String!
+  variableDebtToken: String!
+  interestRateStrategyAddress: String!
+}
+
+type ReserveInterestRateStrategyChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldStrategy: String!
+  newStrategy: String!
+}
+
+type ReservePaused {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  paused: Boolean!
+}
+
+type ReserveStableRateBorrowing {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  enabled: Boolean!
+}
+
+type SiloedBorrowingChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldState: Boolean!
+  newState: Boolean!
+}
+
+type StableDebtTokenUpgraded {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  proxy: String!
+  implementation: String!
+}
+
+type SupplyCapChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldSupplyCap: BigInt!
+  newSupplyCap: BigInt!
+}
+
+type UnbackedMintCapChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  oldUnbackedMintCap: BigInt!
+  newUnbackedMintCap: BigInt!
+}
+
+type VariableDebtTokenUpgraded {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  proxy: String!
+  implementation: String!
+}
+
+# AaveMerkleDistributor Events
+type Claimed {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  token: String!
+  amount: BigInt!
+}
+
+type MerkleRootUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  merkleRoot: String!
+}
+
+type MerkleRootProposed {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  merkleRoot: String!
+  epoch: BigInt!
+}
+
+# EmissionManager Events
+type EmissionAdminUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reward: String!
+  oldAdmin: String!
+  newAdmin: String!
+}
+
+type OwnershipTransferred {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  previousOwner: String!
+  newOwner: String!
+}
+
+# ManualAGRS Events
+type AdminChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  previousAdmin: String!
+  newAdmin: String!
+}
+
+# PoolAddressesProvider Events
+type ACLAdminUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type ACLManagerUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type AddressSet {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  idBytes: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type AddressSetAsProxy {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  idBytes: String!
+  proxyAddress: String!
+  oldImplementationAddress: String!
+  newImplementationAddress: String!
+}
+
+type MarketIdSet {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldMarketId: String!
+  newMarketId: String!
+}
+
+type PoolConfiguratorUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type PoolDataProviderUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type PoolUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type PriceOracleSentinelUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type PriceOracleUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  oldAddress: String!
+  newAddress: String!
+}
+
+type ProxyCreated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  idBytes: String!
+  proxyAddress: String!
+  implementationAddress: String!
+}
+
+# PoolAddressesProviderRegistry Events
+type AddressesProviderRegistered {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newAddress: String!
+}
+
+type AddressesProviderUnregistered {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newAddress: String!
+}
+
+# AavePolEthBridge Events
+type Bridge {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  token: String!
+  amount: BigInt!
+}
+
+type ERC20Rescued {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  token: String!
+  to: String!
+  amount: BigInt!
+}
+
+type EthereumGovernanceExecutorUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newEthereumGovernanceExecutor: String!
+}
+
+type FxChildUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newFxChild: String!
+}
+
+type FxRootUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newFxRoot: String!
+}
+
+# ACLManager Events
+type RoleAdminChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  role: String!
+  previousAdminRole: String!
+  newAdminRole: String!
+}
+
+type RoleGranted {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  role: String!
+  account: String!
+  sender: String!
+}
+
+type RoleRevoked {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  role: String!
+  account: String!
+  sender: String!
+}
+
+# WrappedTokenGatewayV3 Events
+type EmergencyTokenTransfer {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  token: String!
+  to: String!
+  amount: BigInt!
+}
+
+type EmergencyEtherTransfer {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  to: String!
+  amount: BigInt!
+}
+
+# ParaSwap Adapter Events
+type Swapped {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  fromAsset: String!
+  toAsset: String!
+  fromAmount: BigInt!
+  receivedAmount: BigInt!
+}
+
+type Bought {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  fromAsset: String!
+  toAsset: String!
+  amountSold: BigInt!
+  receivedAmount: BigInt!
+}
+
+# Collector Events
+type ETHTransferred {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  to: String!
+  amount: BigInt!
+}
+
+type ERC20Transferred {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  token: String!
+  to: String!
+  amount: BigInt!
+}
+
+type FundsAdminChanged {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newFundsAdmin: String!
+}
+
+type NewRewardsVault {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  newRewardsVault: String!
+}
+
+# CapPlusRiskSteward Events
+type RiskParamsUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  ltv: BigInt!
+  liquidationThreshold: BigInt!
+  liquidationBonus: BigInt!
+}
+
+type CapsUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  supplyCap: BigInt!
+  borrowCap: BigInt!
+}
+
+# RewardsController Events
+type Accrued {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  reward: String!
+  user: String!
+  assetIndex: BigInt!
+  userIndex: BigInt!
+  rewardsAccrued: BigInt!
+}
+
+type AssetConfigUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  asset: String!
+  reward: String!
+  oldEmission: BigInt!
+  newEmission: BigInt!
+  oldDistributionEnd: BigInt!
+  newDistributionEnd: BigInt!
+  assetIndex: BigInt!
+}
+
+type ClaimerSet {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  claimer: String!
+}
+
+type RewardsClaimed {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  to: String!
+  claimer: String!
+  amount: BigInt!
+}
+
+type RewardsAccrued {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  user: String!
+  amount: BigInt!
+}
+
+type TransferStrategyInstalled {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reward: String!
+  transferStrategy: String!
+}
+
+type RewardOracleUpdated {
+  id: ID!
+  chainId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+  reward: String!
+  rewardOracle: String!
+}
+

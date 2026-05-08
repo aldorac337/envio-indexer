@@ -1,0 +1,62 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract IACLManager",
+                "name": "aclManager",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IPoolConfigurator",
+                "name": "poolConfigurator",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "ACL_MANAGER",
+        "outputs": [
+            {
+                "internalType": "contract IACLManager",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "POOL_CONFIGURATOR",
+        "outputs": [
+            {
+                "internalType": "contract IPoolConfigurator",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "asset",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "freeze",
+                "type": "bool"
+            }
+        ],
+        "name": "setFreeze",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

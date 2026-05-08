@@ -1,0 +1,377 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: envio-indexer
+unordered_multichain_mode: true # When true, strict cross chain ordering of event processing will not be obeyed.
+rollback_on_reorg: false
+# field_selection: # Additional fields available to index to augment data
+#   transaction_fields:
+#     - "hash"
+#     - "from"
+contracts:
+  - name: AavePool
+    handler: src/EventHandlers.ts
+    events:
+      - event: BackUnbacked(address indexed reserve, address indexed backer, uint256 amount, uint256 fee)
+      - event: Borrow(address indexed reserve, address user, address indexed onBehalfOf, uint256 amount, uint8 interestRateMode, uint256 borrowRate, uint16 indexed referralCode)
+      - event: DeficitCovered(address indexed reserve, address caller, uint256 amountCovered)
+      - event: DeficitCreated(address indexed user, address indexed debtAsset, uint256 amountCreated)
+      - event: FlashLoan(address indexed target, address initiator, address indexed asset, uint256 amount, uint8 interestRateMode, uint256 premium, uint16 indexed referralCode)
+      # Temporarily commented out due to PostgreSQL enum label length limit
+      # - event: IsolationModeTotalDebtUpdated(address indexed asset, uint256 totalDebt)
+      - event: LiquidationCall(address indexed collateralAsset, address indexed debtAsset, address indexed user, uint256 debtToCover, uint256 liquidatedCollateralAmount, address liquidator, bool receiveAToken)
+      - event: MintUnbacked(address indexed reserve, address user, address indexed onBehalfOf, uint256 amount, uint16 indexed referralCode)
+      - event: MintedToTreasury(address indexed reserve, uint256 amountMinted)
+      - event: Repay(address indexed reserve, address indexed user, address indexed repayer, uint256 amount, bool useATokens)
+      - event: ReserveDataUpdated(address indexed reserve, uint256 liquidityRate, uint256 stableBorrowRate, uint256 variableBorrowRate, uint256 liquidityIndex, uint256 variableBorrowIndex)
+      - event: ReserveUsedAsCollateralDisabled(address indexed reserve, address indexed user)
+      - event: ReserveUsedAsCollateralEnabled(address indexed reserve, address indexed user)
+      - event: Supply(address indexed reserve, address user, address indexed onBehalfOf, uint256 amount, uint16 indexed referralCode)
+      - event: Upgraded(address indexed implementation)
+      - event: UserEModeSet(address indexed user, uint8 categoryId)
+      - event: Withdraw(address indexed reserve, address indexed user, address indexed to, uint256 amount)
+
+  - name: AaveOracle
+    handler: src/EventHandlers.ts
+    events:
+      - event: AssetSourceUpdated(address indexed asset, address indexed source)
+      - event: BaseCurrencySet(address indexed baseCurrency, uint256 baseCurrencyUnit)
+      - event: FallbackOracleUpdated(address indexed fallbackOracle)
+      - event: Upgraded(address indexed implementation)
+
+  - name: GHOFlashMinter
+    handler: src/EventHandlers.ts
+    events:
+      - event: FlashMint(address indexed receiver, uint256 amount, uint256 fee)
+
+  - name: PoolConfigurator
+    handler: src/EventHandlers.ts
+    events:
+      - event: ATokenUpgraded(address indexed asset, address indexed proxy, address indexed implementation)
+      - event: BorrowCapChanged(address indexed asset, uint256 oldBorrowCap, uint256 newBorrowCap)
+      - event: BorrowableInIsolationChanged(address asset, bool borrowable)
+      - event: BridgeProtocolFeeUpdated(uint256 oldBridgeProtocolFee, uint256 newBridgeProtocolFee)
+      - event: CollateralConfigurationChanged(address indexed asset, uint256 ltv, uint256 liquidationThreshold, uint256 liquidationBonus)
+      - event: DebtCeilingChanged(address indexed asset, uint256 oldDebtCeiling, uint256 newDebtCeiling)
+      - event: ReserveActive(address indexed asset, bool active)
+      - event: ReserveBorrowing(address indexed asset, bool enabled)
+      - event: ReserveDropped(address indexed asset)
+      - event: ReserveFactorChanged(address indexed asset, uint256 oldReserveFactor, uint256 newReserveFactor)
+      - event: ReserveFrozen(address indexed asset, bool frozen)
+      - event: ReserveInitialized(address indexed asset, address indexed aToken, address stableDebtToken, address variableDebtToken, address interestRateStrategyAddress)
+      - event: ReserveInterestRateStrategyChanged(address indexed asset, address oldStrategy, address newStrategy)
+      - event: ReservePaused(address indexed asset, bool paused)
+      - event: ReserveStableRateBorrowing(address indexed asset, bool enabled)
+      - event: SiloedBorrowingChanged(address indexed asset, bool oldState, bool newState)
+      - event: StableDebtTokenUpgraded(address indexed asset, address indexed proxy, address indexed implementation)
+      - event: SupplyCapChanged(address indexed asset, uint256 oldSupplyCap, uint256 newSupplyCap)
+      - event: UnbackedMintCapChanged(address indexed asset, uint256 oldUnbackedMintCap, uint256 newUnbackedMintCap)
+      - event: Upgraded(address indexed implementation)
+      - event: VariableDebtTokenUpgraded(address indexed asset, address indexed proxy, address indexed implementation)
+
+  - name: AaveMerkleDistributor
+    handler: src/EventHandlers.ts
+    events:
+      - event: Claimed(address indexed user, address indexed token, uint256 amount)
+      - event: MerkleRootUpdated(bytes32 indexed merkleRoot)
+      - event: MerkleRootProposed(bytes32 indexed merkleRoot, uint256 indexed epoch)
+
+  - name: EmissionManager
+    handler: src/EventHandlers.ts
+    events:
+      - event: EmissionAdminUpdated(address indexed reward, address indexed oldAdmin, address indexed newAdmin)
+      - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+      - event: Upgraded(address indexed implementation)
+
+  - name: ManualAGRS
+    handler: src/EventHandlers.ts
+    events:
+      - event: AdminChanged(address previousAdmin, address newAdmin)
+      - event: Upgraded(address indexed implementation)
+
+  - name: PoolAddressesProvider
+    handler: src/EventHandlers.ts
+    events:
+      - event: ACLAdminUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: ACLManagerUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: AddressSet(bytes32 indexed id, address indexed oldAddress, address indexed newAddress)
+      - event: AddressSetAsProxy(bytes32 indexed id, address indexed proxyAddress, address oldImplementationAddress, address indexed newImplementationAddress)
+      - event: MarketIdSet(string indexed oldMarketId, string indexed newMarketId)
+      - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+      - event: PoolConfiguratorUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: PoolDataProviderUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: PoolUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: PriceOracleSentinelUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: PriceOracleUpdated(address indexed oldAddress, address indexed newAddress)
+      - event: ProxyCreated(bytes32 indexed id, address indexed proxyAddress, address indexed implementationAddress)
+      - event: Upgraded(address indexed implementation)
+
+  - name: PoolAddressesProviderRegistry
+    handler: src/EventHandlers.ts
+    events:
+      - event: AddressesProviderRegistered(address indexed newAddress)
+      - event: AddressesProviderUnregistered(address indexed newAddress)
+      - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+
+  - name: ProxyAdmin
+    handler: src/EventHandlers.ts
+    events:
+      - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+
+  - name: ProxyAdminLong
+    handler: src/EventHandlers.ts
+    events:
+      - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+
+  - name: AavePolEthBridge
+    handler: src/EventHandlers.ts
+    events:
+      - event: Bridge(address indexed token, uint256 amount)
+      - event: ERC20Rescued(address indexed token, address indexed to, uint256 amount)
+      - event: EthereumGovernanceExecutorUpdated(address indexed newEthereumGovernanceExecutor)
+      - event: FxChildUpdated(address indexed newFxChild)
+      - event: FxRootUpdated(address indexed newFxRoot)
+
+  - name: ACLManager
+    handler: src/EventHandlers.ts
+    events:
+      - event: RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole)
+      - event: RoleGranted(bytes32 indexed role, address indexed account, address indexed sender)
+      - event: RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender)
+
+  - name: WrappedTokenGatewayV3
+    handler: src/EventHandlers.ts
+    events:
+      - event: EmergencyTokenTransfer(address indexed token, address indexed to, uint256 amount)
+      - event: EmergencyEtherTransfer(address indexed to, uint256 amount)
+
+  - name: ParaSwapRepayAdapter
+    handler: src/EventHandlers.ts
+    events:
+      - event: Swapped(address indexed fromAsset, address indexed toAsset, uint256 fromAmount, uint256 receivedAmount)
+      - event: Bought(address indexed fromAsset, address indexed toAsset, uint256 amountSold, uint256 receivedAmount)
+
+  - name: ParaSwapLiquiditySwapAdapter
+    handler: src/EventHandlers.ts
+    events:
+      - event: Swapped(address indexed fromAsset, address indexed toAsset, uint256 fromAmount, uint256 receivedAmount)
+      - event: Bought(address indexed fromAsset, address indexed toAsset, uint256 amountSold, uint256 receivedAmount)
+
+  - name: FreezeSteward
+    handler: src/EventHandlers.ts
+    events:
+      - event: ReserveFrozen(address indexed asset, bool frozen)
+
+  - name: Collector
+    handler: src/EventHandlers.ts
+    events:
+      - event: AdminChanged(address previousAdmin, address newAdmin)
+      - event: Upgraded(address indexed implementation)
+      - event: ETHTransferred(address indexed to, uint256 amount)
+      - event: ERC20Transferred(address indexed token, address indexed to, uint256 amount)
+      - event: FundsAdminChanged(address indexed newFundsAdmin)
+      - event: NewRewardsVault(address indexed newRewardsVault)
+
+  - name: CapPlusRiskSteward
+    handler: src/EventHandlers.ts
+    events:
+      - event: RiskParamsUpdated(address indexed asset, uint256 ltv, uint256 liquidationThreshold, uint256 liquidationBonus)
+      - event: CapsUpdated(address indexed asset, uint256 supplyCap, uint256 borrowCap)
+
+  - name: RewardsController
+    handler: src/EventHandlers.ts
+    events:
+      - event: Upgraded(address indexed implementation)
+      - event: Accrued(address indexed asset, address indexed reward, address indexed user, uint256 assetIndex, uint256 userIndex, uint256 rewardsAccrued)
+      - event: AssetConfigUpdated(address indexed asset, address indexed reward, uint256 oldEmission, uint256 newEmission, uint256 oldDistributionEnd, uint256 newDistributionEnd, uint256 assetIndex)
+      - event: ClaimerSet(address indexed user, address indexed claimer)
+      - event: RewardsClaimed(address indexed user, address indexed to, address indexed claimer, uint256 amount)
+      - event: RewardsAccrued(address indexed user, uint256 amount)
+      - event: TransferStrategyInstalled(address indexed reward, address indexed transferStrategy)
+      - event: RewardOracleUpdated(address indexed reward, address indexed rewardOracle)
+
+networks:
+  - id: 1
+    start_block: 16291127
+    contracts:
+      - name: AavePool
+        address:
+          - 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2  # Main Aave V3 Pool
+      - name: AaveOracle
+        address:
+          - 0x54586bE62E3c3580375aE3723C145253060Ca0C2
+      - name: GHOFlashMinter
+        address:
+          - 0xb639D208Bcf0589D54FaC24E655C79EC529762B8
+      - name: PoolConfigurator
+        address:
+          - 0x64b761D848206f447Fe2dd461b0c635Ec39EbB27
+      - name: AaveMerkleDistributor
+        address:
+          - 0xa88c6D90eAe942291325f9ae3c66f3563B93FE10
+      - name: EmissionManager
+        address:
+          - 0x223d844fc4B006D67c0cDbd39371A9F73f69d974
+      - name: ManualAGRS
+        address:
+          - 0x46Ab47bA01EF627ce47F2ED61C9482794a6109c4
+      - name: PoolAddressesProvider
+        address:
+          - 0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e
+      - name: PoolAddressesProviderRegistry
+        address:
+          - 0xbaA999AC55EAce41CcAE355c77809e68Bb345170
+      - name: ProxyAdmin
+        address:
+          - 0xD3cF979e676265e4f6379749DECe4708B9A22476
+      - name: ProxyAdminLong
+        address:
+          - 0x86C3FfeE349A7cFf7cA88C449717B1b133bfb517
+      - name: AavePolEthBridge
+        address:
+          - 0x1C2BA5b8ab8e795fF44387ba6d251fa65AD20b36
+      - name: ACLManager
+        address:
+          - 0xc2aaCf6553D20d1e9d78E365AAba8032af9c85b0
+      - name: WrappedTokenGatewayV3
+        address:
+          - 0xd01607c3C5eCABa394D8be377a08590149325722
+      - name: ParaSwapRepayAdapter
+        address:
+          - 0x35bb522b102326ea3F1141661dF4626C87000e3E
+      - name: ParaSwapLiquiditySwapAdapter
+        address:
+          - 0xADC0A53095A0af87F3aa29FE0715B5c28016364e
+      - name: FreezeSteward
+        address:
+          - 0x2eE68ACb6A1319de1b49DC139894644E424fefD6
+      - name: Collector
+        address:
+          - 0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c
+      - name: CapPlusRiskSteward
+        address:
+          - 0x82dcCF206Ae2Ab46E2099e663F70DeE77caE7778
+      - name: RewardsController
+        address:
+          - 0x8164Cc65827dcFe994AB23944CBC90e0aa80bFcb
+
+  - id: 56  # Binance Smart Chain
+    start_block: 33571625
+    contracts:
+      - name: AavePool
+        address:
+          - 0x6807dc923806fE8Fd134338EABCA509979a7e0cB  # POOL from AaveV3BNB
+      - name: AaveOracle
+        address:
+          - 0x39bc1bfDa2130d6Bb6DBEfd366939b4c7aa7C697  # ORACLE from AaveV3BNB
+      - name: PoolConfigurator
+        address:
+          - 0x67bdF23C7fCE7C65fF7415Ba3F2520B45D6f9584  # POOL_CONFIGURATOR from AaveV3BNB
+      - name: PoolAddressesProvider
+        address:
+          - 0xff75B6da14FfbbfD355Daf7a2731456b3562Ba6D  # POOL_ADDRESSES_PROVIDER from AaveV3BNB
+      - name: PoolAddressesProviderRegistry
+        address:
+          - 0x117684358D990E42Eb1649E7e8C4691951dc1E71  # POOL_ADDRESSES_PROVIDER_REGISTRY from AaveV3BNB
+      - name: ACLManager
+        address:
+          - 0x2D97F8FA96886Fd923c065F5457F9DDd494e3877  # ACL_MANAGER from AaveV3BNB
+      - name: EmissionManager
+        address:
+          - 0x6eD1c70aa357fB8a7e1Eac85aa59e33287Df8f85  # EMISSION_MANAGER from AaveV3BNB
+      - name: Collector
+        address:
+          - 0x25Ec457d1778b0E5316e7f38f3c22baF413F1A8C  # COLLECTOR from AaveV3BNB
+      - name: RewardsController
+        address:
+          - 0xC206C2764A9dBF27d599613b8F9A63ACd1160ab4  # DEFAULT_INCENTIVES_CONTROLLER from AaveV3BNB
+      - name: WrappedTokenGatewayV3
+        address:
+          - 0x0c2C95b24529664fE55D4437D7A31175CFE6c4f7  # WETH_GATEWAY from AaveV3BNB
+
+  - id: 137  # Polygon
+    start_block: 25826028
+    contracts:
+      - name: AavePool
+        address:
+          - 0x794a61358D6845594F94dc1DB02A252b5b4814aD  # POOL from AaveV3Polygon
+      - name: AaveOracle
+        address:
+          - 0xb023e699F5a33916Ea823A16485e259257cA8Bd1  # ORACLE from AaveV3Polygon
+      - name: PoolConfigurator
+        address:
+          - 0x8145eddDf43f50276641b55bd3AD95944510021E  # POOL_CONFIGURATOR from AaveV3Polygon
+      - name: PoolAddressesProvider
+        address:
+          - 0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb  # POOL_ADDRESSES_PROVIDER from AaveV3Polygon
+      - name: PoolAddressesProviderRegistry
+        address:
+          - 0x770ef9f4fe897e59daCc474EF11238303F9552b6  # POOL_ADDRESSES_PROVIDER_REGISTRY from AaveV3Polygon
+      - name: ACLManager
+        address:
+          - 0xa72636CbcAa8F5FF95B2cc47F3CDEe83F3294a0B  # ACL_MANAGER from AaveV3Polygon
+      - name: EmissionManager
+        address:
+          - 0x048f2228D7Bf6776f99aB50cB1b1eaB4D1d4cA73  # EMISSION_MANAGER from AaveV3Polygon
+      - name: Collector
+        address:
+          - 0xe8599F3cc5D38a9aD6F3684cd5CEa72f10Dbc383  # COLLECTOR from AaveV3Polygon
+      - name: RewardsController
+        address:
+          - 0x929EC64c34a17401F460460D4B9390518E5B473e  # DEFAULT_INCENTIVES_CONTROLLER from AaveV3Polygon
+      - name: WrappedTokenGatewayV3
+        address:
+          - 0xBC302053db3aA514A3c86B9221082f162B91ad63  # WETH_GATEWAY from AaveV3Polygon
+
+  - id: 43114  # Avalanche
+    start_block: 11970506
+    contracts:
+      - name: AavePool
+        address:
+          - 0x794a61358D6845594F94dc1DB02A252b5b4814aD  # POOL from AaveV3Avalanche
+      - name: AaveOracle
+        address:
+          - 0xEBd36016B3eD09D4693Ed4251c67Bd858c3c7C9C  # ORACLE from AaveV3Avalanche
+      - name: PoolConfigurator
+        address:
+          - 0x8145eddDf43f50276641b55bd3AD95944510021E  # POOL_CONFIGURATOR from AaveV3Avalanche
+      - name: PoolAddressesProvider
+        address:
+          - 0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb  # POOL_ADDRESSES_PROVIDER from AaveV3Avalanche
+      - name: PoolAddressesProviderRegistry
+        address:
+          - 0x770ef9f4fe897e59daCc474EF11238303F9552b6  # POOL_ADDRESSES_PROVIDER_REGISTRY from AaveV3Avalanche
+      - name: ACLManager
+        address:
+          - 0xa72636CbcAa8F5FF95B2cc47F3CDEe83F3294a0B  # ACL_MANAGER from AaveV3Avalanche
+      - name: EmissionManager
+        address:
+          - 0x048f2228D7Bf6776f99aB50cB1b1eaB4D1d4cA73  # EMISSION_MANAGER from AaveV3Avalanche
+      - name: Collector
+        address:
+          - 0x5ba7fd868c40c16f7aDfAe6CF87121E13FC2F7a0  # COLLECTOR from AaveV3Avalanche
+      - name: RewardsController
+        address:
+          - 0x929EC64c34a17401F460460D4B9390518E5B473e  # DEFAULT_INCENTIVES_CONTROLLER from AaveV3Avalanche
+      - name: WrappedTokenGatewayV3
+        address:
+          - 0x2825cE5921538d17cc15Ae00a8B24fF759C6CDaE  # WETH_GATEWAY from AaveV3Avalanche
+
+  # Example: Add a different contract type (PoolAddressesProvider)
+  # - name: AavePoolAddressesProvider
+  #   address:
+  #   - 0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e  # Aave V3 PoolAddressesProvider
+  #   handler: src/EventHandlers.ts
+  #   events:
+  #   - event: PoolUpdated(address indexed oldAddress, address indexed newAddress)
+  #   - event: PoolConfiguratorUpdated(address indexed oldAddress, address indexed newAddress)
+
+# Example: Add another network (Polygon)
+# - id: 137
+#   start_block: 25000000
+#   contracts:
+#   - name: AavePool
+#     address:
+#     - 0x794a61358D6845594F94dc1DB02A252b5b4814aD  # Aave V3 Pool on Polygon
+#     handler: src/EventHandlers.ts
+#     events:
+#     - event: Supply(address indexed reserve, address user, address indexed onBehalfOf, uint256 amount, uint16 indexed referralCode)
+#     # Add other events as needed
